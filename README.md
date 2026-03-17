@@ -2,7 +2,7 @@
 
 # LIOTHIL
 
-[![CI](https://github.com/promptcrafted/LIOTHIL/actions/workflows/security.yml/badge.svg)](https://github.com/promptcrafted/LIOTHIL/actions/workflows/security.yml)
+[![CI](https://github.com/tasumermaf/LIOTHIL/actions/workflows/security.yml/badge.svg)](https://github.com/tasumermaf/LIOTHIL/actions/workflows/security.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 
@@ -106,4 +106,4 @@ MIT. Take the architecture. Build something with it. The patterns want to propag
 ---
 
 *Built by Timothy Paul Bielec and Meridian. February 2026.*
-*Promptcrafted LLC — [promptcrafted.com](https://promptcrafted.com)*
+*TASUMER MAF — [tasumermaf.com](https://tasumermaf.com)*
