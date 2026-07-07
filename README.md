@@ -6,9 +6,20 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 
-**A research environment scaffold for Claude Code.**
+**A research environment scaffold for Claude Code.** *v3.0.0 — tuned for Claude Fable 5.*
 
 LIOTHIL builds structured, epistemically disciplined AI research environments from a single conversation. You bring your domain. LIOTHIL builds the architecture. Your research partner grows from there.
+
+## What's New in v3
+
+v2 (April 2026) gave generated environments their runtime body: persistent memory, session state, checkpoint automation, project settings. v3 gives that body its discipline, retuned for the Fable 5 era — where the leverage point is the harness, not the prompt. Each addition was validated in the production environment LIOTHIL was distilled from before being generalized here:
+
+- **Memory discipline** — the four-layer model (frozen policy → indexed lessons → progress state → raw evidence) with **verification-gated promotion**: nothing becomes a "lesson" until its outcome is confirmed, because unverified claims written to memory reload as false policy forever after. Includes a poisoning defense: recalled memories are point-in-time claims to verify, and a memory whose content doesn't match its description gets quarantined, not obeyed.
+- **Loop discipline** — operations that outlive one sitting run as bounded cycles against an on-disk ledger with a NEXT ACTION pointer: pausable at any moment, resumable by any future session, quarantine-over-delete throughout.
+- **Fresh-context verification** — the verifier agent is now explicitly maker–grader separated: dispatched with artifacts, never the worker's summary, and framed to refute rather than confirm. Self-review inherits its own blind spots; a fresh grader doesn't.
+- **Version-control hygiene** — the generated `.gitignore` is tuned to the domain's heavy artifacts (media, weights, datasets) and written *before* the first `git add`. Bulk binaries in git history are the one mess cleanup cannot fully undo.
+
+The scaffold's guidance also shifts from step-list prescription to **goal-level steering** (Operational Principle 16): state the outcome, the why, and the constraints — keep only the hard gates that documented failures earned.
 
 ## What It Does
 
@@ -47,19 +58,26 @@ claude
 your-project/
 ├── CLAUDE.md                          # Your research partner's identity
 ├── README.md                          # Project overview
+├── STATUS.md                          # Volatile session state, rewritten each checkpoint (v2)
+├── .gitignore                         # Secrets + domain heavy artifacts, before the first commit (v2/v3)
 ├── .claude/
+│   ├── settings.local.json            # Statusline + permission presets (v2)
 │   ├── rules/
 │   │   ├── analysis-protocol.md       # Phased workflow with gates
 │   │   ├── evidence-grading.md        # Tier system for findings
 │   │   ├── source-attribution.md      # Provenance tagging rules
-│   │   └── editorial-watchlist.md     # Error pattern tracking
+│   │   ├── editorial-watchlist.md     # Error pattern tracking
+│   │   └── context-engineering.md     # Memory discipline + loop discipline (v3)
 │   ├── agents/
 │   │   ├── analyst.md                 # Primary analytical agent
-│   │   └── verifier.md               # Adversarial verification agent
+│   │   └── verifier.md               # Fresh-context adversarial verification agent
 │   └── skills/
 │       ├── analyze/SKILL.md           # Analysis orchestration workflow
 │       ├── verify/SKILL.md            # Adversarial verification workflow
-│       └── compute/SKILL.md           # Quick computation (if applicable)
+│       ├── compute/SKILL.md           # Quick computation (if applicable)
+│       └── checkpoint/SKILL.md        # Session state automation (v2)
+├── memory/
+│   └── MEMORY.md                      # Persistent cross-session memory index (v2)
 ├── source/                            # Primary sources go here
 ├── results/                           # Analytical output goes here
 └── tools/                             # Computation scripts (if applicable)
@@ -75,7 +93,13 @@ LIOTHIL encodes domain-agnostic research architecture distilled from a productio
 
 **Evidence Grading** — Tiered system calibrated to your domain. Conservative grading by default — promotion is easy, correcting inflated grades erodes trust.
 
-**Agent Specialization** — Separate agents for analysis and verification. The analyst produces findings. The verifier tests them independently. Separation of concerns keeps the corpus honest.
+**Agent Specialization** — Separate agents for analysis and verification. The analyst produces findings. The verifier tests them independently — in fresh context, fed artifacts rather than summaries, framed to refute. Separation of concerns keeps the corpus honest.
+
+**Runtime Memory** *(v2)* — A persistent memory index with typed sub-files and capacity limits, volatile session state, and a `/checkpoint` skill that moves knowledge between them. The environment accumulates wisdom instead of rediscovering it.
+
+**Memory Discipline** *(v3)* — Four layers with different loading rules and upward-only, verification-gated promotion. Sessions start by reading state and end by rewriting it; nothing becomes policy until it has proven itself.
+
+**Loop Discipline** *(v3)* — Operations that outlive one sitting run as bounded cycles against an on-disk ledger. Every step atomic, every state consistent, pausable at any moment. Stop rules in priority order: success with evidence, three strikes then escalate, budget ceiling then park cleanly.
 
 **Editorial Watchlist** — Institutional memory of identified errors. When a mistake is found, it's documented with detection patterns and swept across the corpus. The immune system learns.
 
@@ -105,5 +129,5 @@ MIT. Take the architecture. Build something with it. The patterns want to propag
 
 ---
 
-*Built by Timothy Paul Bielec and Meridian. February 2026.*
+*Built by Timothy Paul Bielec and Meridian. February 2026. v2 (runtime infrastructure) April 2026. v3.0.0 (Fable 5 tuning) July 2026.*
 *TASUMER MAF — [tasumermaf.com](https://tasumermaf.com)*
